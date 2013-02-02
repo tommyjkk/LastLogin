@@ -167,7 +167,7 @@ pip-log.txt
 ##Extra Files
 #############
 
-/target
+target/
 /bin
 dependency-reduced-pom.xml
 *.jar
