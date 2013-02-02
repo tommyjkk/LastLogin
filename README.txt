@@ -1,0 +1,1 @@
+To build the plugin use maven and use the mvn package command to build the plugin jar file.
