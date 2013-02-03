@@ -1,5 +1,7 @@
 package com.github.tommyjkk.lastlogin;
 
+import java.math.BigDecimal;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -17,12 +19,16 @@ public class TotalPlayTimeExecuter implements CommandExecutor{
 		if (args.length==1 && sender.hasPermission("totalplaytime.allow")){
 			String name=args[0];
 			if(lastlogin.isInTimeMap(name) && lastlogin.getServer().getPlayer(name)!=null){
-				double totalTime = lastlogin.getTotalTime(name);
-				sender.sendMessage("Total play time for " + ChatColor.BLUE + args[0] + " " + ChatColor.GOLD + totalTime);
+				double dblTotalTime=lastlogin.getTotalTime(name);
+				dblTotalTime=dblTotalTime/60;
+				BigDecimal totalTime = new BigDecimal(dblTotalTime).setScale(2, BigDecimal.ROUND_FLOOR);
+				sender.sendMessage("Total play time for " + ChatColor.BLUE + args[0] + " " + ChatColor.GOLD + totalTime + " hours");
 			}
 			else if(lastlogin.isInTimeMap(name) && lastlogin.getServer().getPlayer(name)==null){
-				double totalTime = lastlogin.getTotalTime(name);
-				sender.sendMessage("Total play time for " + ChatColor.BLUE + args[0] + " " + ChatColor.GOLD + totalTime);
+				double dblTotalTime=lastlogin.getTotalTime(name);
+				dblTotalTime=dblTotalTime/60;
+				BigDecimal totalTime = new BigDecimal(dblTotalTime).setScale(2, BigDecimal.ROUND_FLOOR);
+				sender.sendMessage("Total play time for " + ChatColor.BLUE + args[0] + " " + ChatColor.GOLD + totalTime + " hours");
 			}
 			
 			else if(!lastlogin.isInTimeMap(name) && lastlogin.getServer().getPlayer(name)!=null){
