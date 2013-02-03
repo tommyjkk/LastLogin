@@ -10,6 +10,7 @@ import java.io.ObjectOutputStream;
 import java.util.HashMap;
 
 import org.bukkit.Server;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.joda.time.DateTime;
@@ -98,57 +99,83 @@ public class LastLogin extends JavaPlugin{
 		this.checkJoinHashAndCreate(PluginFile);
 		File joinHash=new File(PluginFile, "Joins.dat");
 		File totalsHash= new File(PluginFile, "Totals.dat");
-		FileInputStream joinFileIS = null;
-		try {
-			joinFileIS=new FileInputStream(joinHash);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		ObjectInputStream joinFileOIS = null;
-		try {
-			joinFileOIS= new ObjectInputStream(joinFileIS);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		try {
-			joinDateMap=(HashMap<String, DateTime>)joinFileOIS.readObject();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		try {
-			joinFileOIS.close();
-		} catch (IOException e) {
-			e.printStackTrace();
+		boolean totalHashEmpty = totalsHash.length()==0;
+		boolean joinHashEmpty=joinHash.length()==0;
+		if (!joinHashEmpty){
+			FileInputStream joinFileIS = null;
+			try {
+			
+				joinFileIS=new FileInputStream(joinHash);
+		
+			} catch (FileNotFoundException e) {
+	
+				e.printStackTrace();
+
+			}
+	
+			ObjectInputStream joinFileOIS = null;
+	
+			try {
+		
+				joinFileOIS= new ObjectInputStream(joinFileIS);
+	
+			} catch (IOException e) {
+			
+				e.printStackTrace();
+		
+			}
+			try {
+				joinDateMap=(HashMap<String, DateTime>) joinFileOIS.readObject();			
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+			try {
+				joinFileOIS.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		
-		FileInputStream totalsFileIS=null;
-		try {
-			totalsFileIS=new FileInputStream(totalsHash);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		ObjectInputStream totalsFileOIS=null;
-		try {
-			totalsFileOIS=new ObjectInputStream(totalsFileIS);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		try {
-			totalTimeMap=(HashMap<String, Double>) totalsFileOIS.readObject();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		try {
-			totalsFileOIS.close();
-		} catch (IOException e) {
-			e.printStackTrace();
+		if(!totalHashEmpty){
+			FileInputStream totalsFileIS=null;
+			try {
+				totalsFileIS=new FileInputStream(totalsHash);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+			ObjectInputStream totalsFileOIS=null;
+			try {
+				totalsFileOIS=new ObjectInputStream(totalsFileIS);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			try {
+				totalTimeMap=(HashMap<String, Double>) totalsFileOIS.readObject();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+			try {
+				totalsFileOIS.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	public void onDisable(){
+		Player[] playersOnline=this.getServer().getOnlinePlayers();
+		
+		int amountOnline=playersOnline.length;
+		int counter=0;
+		String playerName=null;
+		while(counter<=amountOnline-1){
+			playerName=playersOnline[counter].getName();
+			this.calcTotalTime(playerName);
+			counter=counter + 1;
+		}
 		this.checkFileExistsAndCreate();
 		File PluginFile=this.getDataFolder();
 		this.checkJoinHashAndCreate(PluginFile);
