@@ -1,14 +1,29 @@
 name: Last Login
 main: com.github.tommyjkk.lastlogin.LastLogin
 version: 1
+author: Tommyjkk
+website: sinksmc.forumotion.com
+
 commands:
    lastlogin:
       description: This returns lastlogin of a player.
       usage: /<command> [player]
-      permission: lastlogin.allow
+      permission: lastlogin.lastlogin
       permission-message: You don't have <permission>
    totalplaytime:
-      description: This returns the total playtime of a player in minutes.
+      description: This returns the total playtime of a player in hours.
       usage: /<command> [player]
-      permission: totalplaytime.allow
+      permission: lastlogin.totalplaytime
       permission-message: You don't have <permission>
+permissions:
+   lastlogin.*:
+      description: Gives access to all lastlogin commands.
+      children:
+         lastlogin.lastlogin: true
+         lastlogin.totalplaytime: true
+   lastlogin.lastlogin:
+      description: Gives access to the lastlogin command.
+      default: true
+   lastlogin.totalplaytime:
+      description: Gives access to the totalplaytime command.
+      default: true

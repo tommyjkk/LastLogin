@@ -16,7 +16,7 @@ public class TotalPlayTimeExecuter implements CommandExecutor{
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		if (args.length==1 && sender.hasPermission("totalplaytime.allow")){
+		if (args.length==1 && sender.hasPermission("lastlogin.totalplaytime")){
 			String name=args[0];
 			if(lastlogin.isInTimeMap(name) && lastlogin.getServer().getPlayer(name)!=null){
 				double dblTotalTime=lastlogin.getTotalTime(name);

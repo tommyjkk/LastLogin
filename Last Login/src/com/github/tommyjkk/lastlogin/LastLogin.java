@@ -83,6 +83,7 @@ public class LastLogin extends JavaPlugin{
 			}
 		}
 	}
+	@SuppressWarnings("unchecked")
 	public void onEnable(){
 		PluginManager manager=this.getServer().getPluginManager();
 		Server server = this.getServer();

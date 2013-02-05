@@ -18,7 +18,7 @@ public class LastLoginCommandExecuter implements CommandExecutor{
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label,
 			String[] args) {
-		if (args.length==1 && sender.hasPermission("lastlogin.allow")){
+		if (args.length==1 && sender.hasPermission("lastlogin.lastlogin")){
 			String name=args[0];
 			name=name.toLowerCase();
 			
@@ -31,7 +31,7 @@ public class LastLoginCommandExecuter implements CommandExecutor{
 				
 			}
 			else {
-				sender.sendMessage("Could not find" + args[0]);
+				sender.sendMessage("Could not find " + args[0]);
 				return true;
 			}
 			
